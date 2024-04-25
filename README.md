@@ -1,5 +1,7 @@
 ***WARNING: THIS SOFTWARE IS IN ITS BETA PHASE, EXPECT ISSUES/INCONVENIENCES UNTIL THE FIRST RELEASE HAS BEEN MADE***
+
 That said, you *can* use the software currently (it is usable), just beware it still needs to be modified for easy use on all distros and devices.
+
 
 This software was started as a project for personal use but adapted to be easy(ish) to use by others, so not everything will be as easy as it is in the official Elgatio software.
 
