@@ -6,7 +6,7 @@ That said, you *can* use the software currently (it is usable), just beware it s
 This software was started as a project for personal use but adapted to be easy(ish) to use by others, so not everything will be as easy as it is in the official Elgatio software.
 
 # Installation
-Download the latest release, unzip it, and inside the folder, and install all necessary packages (use ``pip install -r requirements.txt``)
+Download the latest release (just streamdeck.py), unzip it, and inside the folder, and install all necessary packages (use ``pip install -r requirements.txt``)
 Run streamdeck.py
 When it asks if you want to download icon and background packs, you can choose not to download any.
 
