@@ -1,6 +1,5 @@
 CairoSVG==2.7.1
 opencv_python==4.9.0.80
-Pillow==10.0.0
 Pillow==10.3.0
 pynput==1.7.6
 pyperclip==1.8.2
