@@ -48,9 +48,14 @@ Configuring a button, the screen, or a dial is as simple as clicking on it in th
 - down: triggered when you swipe down over a dial's icon, blocks screen's down event if set
 - left: triggered when you swipe left over a dial's icon, blocks screen's left event if set
 - right: triggered when you swipe right over a dial's icon, blocks screen's right event if set
-- pus
 
-### Events
-
-
-# Actions
+# Planned features
+- Integrated spotify support
+- Icon picker
+- Drag-and-drop actions
+- Premade actions (for OS shortcuts, some games, etc)
+- Plugins
+- User-made action support
+- Rounded UI corners
+- Easier profile switching
+- More user friendly action customization
