@@ -1,4 +1,4 @@
-***WARNING: THIS SOFTWARE IS IN ITS BETA PHASE, EXPECT ISSUES/INCONVENIENCES UNTIL THE FIRST RELEASE HAS BEEN MADE. I"M AIMING TO CREATE THE FIRST RELEASE BY MAY 5TH 2024***
+***WARNING: THIS SOFTWARE IS IN ITS BETA PHASE, EXPECT ISSUES/INCONVENIENCES UNTIL THE FIRST RELEASE HAS BEEN MADE. I"M AIMING TO CREATE THE FIRST RELEASE BY MAY 12TH 2024*** (More work needs to be done for a production version, so this has been moved from the 5th to the 12th)
 
 That said, you *can* use the software currently (it is usable), just beware it still needs to be modified for easy use on all distros and devices.
 
