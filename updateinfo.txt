@@ -1,1 +1,3 @@
-(No content)
+(05/06/2024)
+- Made (most) button corners round
+- Started work on improving the properties menu (it's a mess)
