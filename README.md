@@ -1,7 +1,6 @@
 ***WARNING: THIS SOFTWARE IS IN ITS BETA PHASE, EXPECT ISSUES/INCONVENIENCES UNTIL THE FIRST RELEASE HAS BEEN MADE. I"M AIMING TO CREATE THE FIRST RELEASE BY MAY 12TH 2024*** (More work needs to be done for a production version, so this has been moved from the 5th to the 12th)
 
-That said, you *can* use the software currently (it is usable), just beware it still needs to be modified for easy use on all distros and devices.
-
+***THE INSTALLER SYSTEM IS IMPLEMENTED AND WORKING, IF YOU WANT TO TRY THE SOFTWARE OUT IN ITS EARLY STATE. THE AUTOUPDATE SYSTEM IS IMPLEMENTED BUT UNTESTED***
 
 This software was started as a project for personal use but adapted to be easy(ish) to use by others, so not everything will be as easy as it is in the official Elgatio software.
 
