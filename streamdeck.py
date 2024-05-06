@@ -6,8 +6,6 @@
 import os
 import threading
 import io
-import cv2
-import urllib
 import requests
 import cairosvg
 import json
@@ -16,12 +14,14 @@ from PIL import Image, ImageDraw, ImageFont, ImageTk
 from StreamDeck.DeviceManager import DeviceManager
 from StreamDeck.Devices.StreamDeck import DialEventType, TouchscreenEventType
 from pynput.keyboard import Key, Controller, HotKey, Listener
-import pynput
-import importlib
+import shutil
 import re
 import pyperclip
+import zipfile
 
 keyboard = Controller()
+
+
 
 def press(key):
     global keyboard
@@ -38,17 +38,30 @@ pth = os.path.expanduser('~')+sep+".streamdeck"
 if not os.path.exists(pth):
     os.mkdir(pth)
 
+#https://raw.githubusercontent.com/goglesquirmintontheiii/streamdeck-plus-software/main/streamdeck.py
+#just check if the file contents are the same (for now)
+updatecontent = ""
+if not os.path.exists(pth+"/.noauto"):
+    try:
+        print("Checking for updates.. this won't take long! (You can press ctrl+C to cancel and you'll be able to disable auto-updates)")
+        latest = requests.get("https://raw.githubusercontent.com/goglesquirmintontheiii/streamdeck-plus-software/main/streamdeck.py").text
+        with open(__file__,"r") as f:
+            if f.read() != latest:
+                updatecontent = latest
+    except:
+        if getselection("Cancelled autoupdate - would you like to disable autoupdates?: "):
+            pass
+else:
+    print("Auto-updates are disabled.")
+
 iconpth = pth+sep+"iconpacks"
 if not os.path.exists(iconpth):
     os.mkdir(iconpth)
 
 fontpth = pth+sep+"fonts"
-if not os.path.exists(fontpth):
-    os.mkdir(fontpth)
 
 backgroundpth = pth+sep+"backgroundpacks"
-if not os.path.exists(backgroundpth):
-    os.mkdir(backgroundpth)
+
 
 pluginpth = pth+sep+"plugins"
 if not os.path.exists(pluginpth):
@@ -107,7 +120,7 @@ else:
 
 
     if getselection("Would you like to create a desktop shortcut? (y/n): "):
-        with open(os.path.expanduser('~')+sep+'Desktop'+sep+'streamdeck.desktop','w') as f:
+        with open(os.path.expanduser('~')+sep+'Desktop'+sep+'stream_deck.desktop','w') as f:
             f.write("[Desktop Entry]\n")
             f.write("Name=Stream deck\n")
             f.write("Version=v0.0.1\n")
@@ -116,8 +129,47 @@ else:
             f.write("Exec=/bin/python3 "+pth+sep+"streamdeck.py\n")
             f.write("Terminal=false\n")
             f.write("Type=Application")
-    
-    exit("Please restart the program so the default profile can be loaded.")
+    if getselection("Would you like to download a small icon pack from the repo? (1.1MB) (y/n): "):
+        print("Downloading icons..")
+        iconz = requests.get("https://github.com/goglesquirmintontheiii/streamdeck-plus-software/raw/main/baseicons.zip").content
+        print("Saving baseicons.zip..")
+        with open(pth+"/"+"tempicons.zip", "wb") as f:
+            f.write(iconz)
+        print("Unzipping..")
+        with zipfile.ZipFile(pth+"/"+"tempicons.zip") as z:
+            z.extractall(iconpth)
+        os.remove(pth+"/"+"tempicons.zip")
+    if getselection("Almost done! Would you like to download the elgato background packs for the LCD display? (4.6MB) (y/n): "):
+        print("Downloading backgrounds..")    
+        backz = requests.get("https://github.com/goglesquirmintontheiii/streamdeck-plus-software/raw/main/backgroundpacks.zip").content
+        print("Saving backgroundszip.zip..")
+        with open(pth+"/backgroundszip.zip","wb") as f:
+            f.write(backz)
+        print("Unzipping..")
+        if os.path.exists(backgroundpth):
+            os.rmdir(backgroundpth)
+        with zipfile.ZipFile(pth+"/backgroundszip.zip") as z:
+            z.extractall(pth)
+        os.remove(pth+"/backgroundszip.zip")
+    print("Downloading fonts.. (6.94MB)")
+    fontz = requests.get("https://github.com/goglesquirmintontheiii/streamdeck-plus-software/raw/main/fonts.zip").content
+    print("Saving fonts..")
+    with open(pth+"/fontszip.zip", "wb") as f:
+        f.write(fontz)
+    print("Unzipping..")
+    with zipfile.ZipFile(pth+"/fontszip.zip") as z:
+        z.extractall(pth)
+    os.remove(pth+"/fontszip.zip")
+    print("Downloading streamdeck icon..")
+    with open(pth+"/icon.png","wb") as f:
+        f.write(requests.get("https://raw.githubusercontent.com/goglesquirmintontheiii/streamdeck-plus-software/main/icon.png").content)
+    print("Copying script to ~/.streamdeck.. (this is required for the desktop shortcut to work)")
+    shutil.copyfile(__file__,pth+"/streamdeck.py")
+    exit("Installation complete! Please restart the program so the default profile can be loaded.")
+if not os.path.exists(backgroundpth):
+    os.mkdir(backgroundpth)
+if not os.path.exists(fontpth):
+    os.mkdir(fontpth)
 
 
 #RESIZE ALL IMAGES TO 120x120 FOR KEYS,
@@ -184,6 +236,24 @@ def getData(img : Image):
         background.paste(img, mask=img.split()[3])
         background.save(otp,format="JPEG")
     return otp.getvalue()
+
+def add_corners(im, rad):
+    circle = Image.new('L', (rad * 2, rad * 2), 0)
+    draw = ImageDraw.Draw(circle)
+    draw.ellipse((0, 0, rad * 2 - 1, rad * 2 - 1), fill=255)
+    alpha = Image.new('L', im.size, 255)
+    w, h = im.size
+    alpha.paste(circle.crop((0, 0, rad, rad)), (0, 0))
+    alpha.paste(circle.crop((0, rad, rad, rad * 2)), (0, h - rad))
+    alpha.paste(circle.crop((rad, 0, rad * 2, rad)), (w - rad, 0))
+    alpha.paste(circle.crop((rad, rad, rad * 2, rad * 2)), (w - rad, h - rad))
+    #im.putalpha(alpha)
+    blackimg = Image.new("RGB",(w,h),(0,0,0))
+    blackimg.paste(im)
+    new = Image.new("RGBA",(w,h),(42,42,42,255))
+    new.paste(blackimg,mask=alpha)
+    new.save("test3.png")
+    return new
 
 def readSvg(path):
     out = io.BytesIO()
@@ -416,6 +486,7 @@ def loadPage():
     global dials
     global bg
     global selAcc
+    
     destroyProps()
     notLoaded = [i for i in range(8)]
     argparse = {
@@ -464,7 +535,9 @@ def loadPage():
                     argparse["xy"] = ((0,77),tuple)#(((100-w)/2,77),tuple)#(((W/2)-(w/2), 77), tuple)
                     draw.text(**handleArgs(val['text'] if isinstance(val['text'],dict) else {"text": val['text']}, argparse))
                 deck.set_key_image(int(sp[1]),getData(img))
-                _im = ImageTk.PhotoImage(img)
+                tempim = add_corners(img,20)
+                _im = ImageTk.PhotoImage(tempim)
+                
                 btns[int(sp[1])].config(image=_im)
                 btns[int(sp[1])].im = _im
         elif domain == "dial":
@@ -479,6 +552,7 @@ def loadPage():
                     argparse["xy"] = ((((100-w)/2) + (dn*200) + 50, 75), tuple)
                     draw.text(**handleArgs(val['text'] if isinstance(val['text'],dict) else {"text": val['text']}, argparse))
                 im=ImageTk.PhotoImage(screenbg)
+                
                 bg.config(image=im)
                 bg.im = im
                 deck.set_touchscreen_image(getData(screenbg), 0, 0, 800, 100)
@@ -497,7 +571,7 @@ def loadPage():
                     
             
     for i in notLoaded:
-        blankimg = Image.new("RGB",(120,120),(0,0,0))
+        blankimg = add_corners(Image.new("RGB",(120,120),(0,0,0)),20)
         blank2 = ImageTk.PhotoImage(blankimg)
         btns[i].config(image=blank2)
         btns[i].im = blank2 
@@ -623,7 +697,7 @@ class VerticalScrolledFrame(ttk.Frame):
         vscrollbar = ttk.Scrollbar(self, orient=VERTICAL)
         vscrollbar.pack(fill=Y, side=RIGHT, expand=FALSE)
         canvas = tk.Canvas(self, bd=0, highlightthickness=0,
-                           yscrollcommand=vscrollbar.set)
+                           yscrollcommand=vscrollbar.set,height=kw['cheight'] if 'cheight' in kw.keys() else 925)
         canvas.pack(side=LEFT, fill=BOTH, expand=TRUE)
         vscrollbar.config(command=canvas.yview)
 
@@ -666,9 +740,10 @@ sty.configure('MyFrame.TFrame',background="#3A3A3A")
 
 frm = ttk.Frame(root, padding=10,style='MyFrame.TFrame')
 frm.place(x=0,y=625)
+frm.configure(width=1000,height=300)
 
 frm2 = ttk.Frame(root,padding=10,style="MyFrame.TFrame")
-frm2.place(x=200,y=0)
+frm2.place(x=400,y=0)
 
 
 rootX = 50
@@ -875,9 +950,19 @@ def on_release(key):
     pass
     #print(key)
 
+def updateapp():
+    global updatecontent
+    print("Updating..")
+    #with open(__file__,"w") as f:
+    #    f.write(updatecontent)
 
 ref_button = Button(root,height=1,width=15,text="Reload profile",command=refreshConfigs,fg="white",bg="#2A2A2A",font=('Calibri 15 bold'))
 ref_button.place(x=0,y=0)
+if updatecontent != "":
+    upd_button = Button(root,height=1,width=15,text="Update",command=refreshConfigs,fg="white",bg="#2A2A2A",font=('Calibri 15 bold'))
+    upd_button.place(x=200,y=0)
+else:
+    frm2.place(x=200,y=0)
 #show_ico = Button(root,height=1,width=15,text="View icons",command=refreshConfigs,fg="white",bg="#2A2A2A",font=('Calibri 15 bold'))
 #show_ico.place(x=200,y=0)
 
@@ -885,23 +970,25 @@ for i in range(8):
     btns.append(None)
     def selectLocal(i=i):
         selectButton(i)
-    btns[i] = Button(root, image=phi, height=120, width=120, command=selectLocal, bg="black", activebackground="black")
+    btns[i] = Button(root, image=phi, height=120, width=120, command=selectLocal, borderwidth=0, highlightthickness = 0, bd = 0 , pady=0, padx=0, relief="solid", highlightbackground="#FFFFFF",background="#2A2A2A",activebackground="#3D3D3D")
     btns[i].place(x=((i % 4)*190)+rootX+50, y = ((i // 4)*140)+rootY)
 
 bg = Button(root,image=phi, height=100, width = 800, bg="black",command=selectScreen)
 bg.place(x=rootX,y=290+rootY)
 
+circle = ImageTk.PhotoImage(add_corners(Image.new("RGB",(120,120),(0,0,0)),60))
+
 for i in range(4):
     dials.append(None)
     def selectLocal(i=i):
         selectDial(i)
-    dials[i] = Button(root,image=phi, height=120, width=120, command=selectLocal,bg="black",activebackground="black")
+    dials[i] = Button(root,image=circle, height=120, width=120, command=selectLocal, borderwidth=0, highlightthickness = 0, bd = 0 , pady=0, padx=0, relief="solid", highlightbackground="#FFFFFF",background="#2A2A2A",activebackground="#3D3D3D")
     dials[i].place(x=((i % 4)*190)+rootX+50, y = ((i // 4)*140)+rootY+420)
 
-#vsf = VerticalScrolledFrame(root)
-#vsf.place(x=250,y=250)
-#vsf.interior.configure(width=500,height=5000,style="MyFrame.TFrame")
-#Button(vsf.interior,width=50,height=20,text="Hi there").place(x=50,y=50)
+vsf = VerticalScrolledFrame(root)
+vsf.place(x=1000,y=0)
+vsf.interior.configure(width=450,height=5000,style="MyFrame.TFrame")
+#Button(vsf.interior,width=50,height=100,text="Hi there").place(x=50,y=50)
 
 buildPages()
 loadPage()
@@ -914,6 +1001,7 @@ elif os.path.exists(pth+sep+"icon.svg"):
     root.wm_iconphoto(False,ico)
 
 #Listener(print_key,on_release=on_release).start()
+root.configure(width=1465,height=900)
 
 root.bind('<KeyPress>',on_press)
 root.bind('<KeyRelease>',on_release)
