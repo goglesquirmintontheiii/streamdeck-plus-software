@@ -1,6 +1,8 @@
-***WARNING: THIS SOFTWARE IS IN ITS BETA PHASE, EXPECT ISSUES/INCONVENIENCES UNTIL THE FIRST RELEASE HAS BEEN MADE. I"M AIMING TO CREATE THE FIRST RELEASE BY MAY 12TH 2024*** (More work needs to be done for a production version, so this has been moved from the 5th to the 12th)
+***WARNING: THIS SOFTWARE IS IN ITS BETA PHASE, EXPECT ISSUES/INCONVENIENCES UNTIL THE FIRST RELEASE HAS BEEN MADE. I"M AIMING TO CREATE THE FIRST RELEASE BY MAY 30TH 2024*** (More work needs to be done for a production version, so this has been moved from the 12th to the 30th)
 
 ***THE INSTALLER SYSTEM IS IMPLEMENTED AND WORKING, IF YOU WANT TO TRY THE SOFTWARE OUT IN ITS EARLY STATE. THE AUTOUPDATE SYSTEM IS IMPLEMENTED BUT UNTESTED***
+
+I'm still actively working on this as much as a can, though I don't have a lot of time to work on it generally so it may be a bit before I can get the first release out
 
 This software was started as a project for personal use but adapted to be easy(ish) to use by others, so not everything will be as easy as it is in the official Elgatio software.
 
@@ -55,6 +57,6 @@ Configuring a button, the screen, or a dial is as simple as clicking on it in th
 - Premade actions (for OS shortcuts, some games, etc)
 - Plugins
 - User-made action support
-- Rounded UI corners
+- ~~Rounded UI corners~~ Done
 - Easier profile switching
 - More user friendly action customization
