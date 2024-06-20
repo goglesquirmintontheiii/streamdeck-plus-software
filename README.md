@@ -53,7 +53,7 @@ Configuring a button, the screen, or a dial is as simple as clicking on it in th
 - right: triggered when you swipe right over a dial's icon, blocks screen's right event if set
 
 # Planned features
-- Integrated spotify support
+- Integrated spotify support - *I may not work on this for a while as I no longer use Spotify*
 - Icon picker
 - Drag-and-drop actions
 - Premade actions (for OS shortcuts, some games, etc)
