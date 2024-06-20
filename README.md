@@ -1,5 +1,6 @@
 ***WARNING: THIS SOFTWARE IS IN ITS BETA PHASE, EXPECT ISSUES/INCONVENIENCES UNTIL THE FIRST RELEASE HAS BEEN MADE. I"M AIMING TO CREATE THE FIRST RELEASE AS SOON AS I CAN*** 
 ^ I've noticed the amount of interest in the project and so I've decided to prioritise this project more than my others; please be patient but know I haven't forgotten about this :)
+(I'm a 16 y/o solo dev with an active internship two days a week and with a sometimes busy schedule) 
 
 ***THE INSTALLER SYSTEM IS IMPLEMENTED AND WORKING, IF YOU WANT TO TRY THE SOFTWARE OUT IN ITS EARLY STATE. THE AUTOUPDATE SYSTEM IS IMPLEMENTED BUT UNTESTED***
 
