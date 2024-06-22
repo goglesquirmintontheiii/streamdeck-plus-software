@@ -9,8 +9,8 @@ I'm still actively working on this as much as a can, though I don't have a lot o
 This software was started as a project for personal use but adapted to be easy(ish) to use by others, so not everything will be as easy as it is in the official Elgatio software.
 
 # Installation
-Download the latest release (just streamdeck.py), unzip it, and inside the folder, and install all necessary packages (use ``pip install -r requirements.txt``)
-Run streamdeck.py
+Download install.py and install all necessary packages (use ``pip install -r requirements.txt``)
+Run install.py
 When it asks if you want to download icon and background packs, you can choose not to download any.
 
 # Usage
@@ -60,5 +60,9 @@ Configuring a button, the screen, or a dial is as simple as clicking on it in th
 - Plugins
 - User-made action support
 - ~~Rounded UI corners~~ Done
+- ~~Break main script up into multiple~~ Done
+- ~~Make a better/mor reliable autoupdate system~~ Done
+- ~~Improve install script~~ Done
+- Fix migration to slightly more seamlessly transition from Windows' Elgato software to this software  
 - Easier profile switching
 - More user friendly action customization
