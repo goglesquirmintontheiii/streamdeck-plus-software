@@ -1,3 +1,8 @@
+MM/DD/YYYY
+
+(06/22/2024)
+- Split the one massive script into multiple smaller ones
+
 (05/06/2024)
 - Made (most) button corners round
 - Started work on improving the properties menu (it's a mess)
