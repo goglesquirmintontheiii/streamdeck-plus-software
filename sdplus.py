@@ -16,12 +16,14 @@ import sdutil
 import pyperclip
 import sdimageutil
 from tkinter import VERTICAL,Y,RIGHT,FALSE,LEFT,BOTH,TRUE,NW,Tk
-from tkinter import ttk, PhotoImage, Button, Label, Entry
+from tkinter import ttk, PhotoImage, Button, Label, Entry, filedialog
 import tkinter as tk
 
 keyboard = Controller()
 #Non-GUI moved to start of code, to improve organization
 #Jump to line 261
+
+this_release_id = 161806454
 
 def press(key):
     global keyboard
@@ -186,17 +188,21 @@ pth = os.path.expanduser('~')+sep+".streamdeck"
 if not os.path.exists(pth):
     os.mkdir(pth)
 
-#https://raw.githubusercontent.com/goglesquirmintontheiii/streamdeck-plus-software/main/streamdeck.py
-#just check if the file contents are the same (for now)
-updatecontent = ""
+# #https://raw.githubusercontent.com/goglesquirmintontheiii/streamdeck-plus-software/main/streamdeck.py
+# #just check if the file contents are the same (for now)
+#check releases @ https://api.github.com/repos/goglesquirmintontheiii/streamdeck-plus-software/releases
+
+
+
+updatecontent = "" #Keep this right now
 if not os.path.exists(pth+"/.noauto"):
     try:
         print("Checking for updates.. this won't take long! (You can press ctrl+C to cancel and you'll be able to disable auto-updates)")
-        latest = requests.get("https://raw.githubusercontent.com/goglesquirmintontheiii/streamdeck-plus-software/main/streamdeck.py").text
-        with open(__file__,"r") as f:
-            if f.read() != latest:
-                updatecontent = latest
-    except:
+        latest_id = requests.get("https://api.github.com/repos/goglesquirmintontheiii/streamdeck-plus-software/releases").json()[0]['id']
+        print(latest_id, this_release_id)
+        if latest_id != this_release_id:
+            updatecontent = "New update needed"
+    except KeyboardInterrupt:
         if sdutil.getselection("Cancelled autoupdate - would you like to disable autoupdates?: "):
             with open(pth+"/.noauto", "w") as f:
                 f.write("Auto-updates are disabled until this file is deleted")
@@ -734,8 +740,7 @@ def on_release(key):
 def updateapp():
     global updatecontent
     print("Updating..")
-    #with open(__file__,"w") as f:
-    #    f.write(updatecontent)
+    install.download_main_files()
 
 ref_button = Button(root,height=1,width=15,text="Reload profile",command=refreshConfigs,fg="white",bg="#2A2A2A",font=('Calibri 15 bold'))
 ref_button.place(x=0,y=0)
@@ -803,3 +808,4 @@ root.mainloop()
 #Software made by goglesq (@animepfp on Discord) 
 #u/goglesq
 #https://github.com/goglesquirmintontheiii
+
