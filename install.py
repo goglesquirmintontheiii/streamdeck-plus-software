@@ -1,5 +1,8 @@
 #Installer script
 
+#check release id from https://api.github.com/repos/goglesquirmintontheiii/streamdeck-plus-software/releases
+#download all scripts from https://api.github.com/repos/goglesquirmintontheiii/streamdeck-plus-software/contents/
+
 import os
 import requests
 import zipfile
@@ -30,6 +33,20 @@ if not os.path.exists(pluginpth):
 
 cfgpth = pth+sep+"profile.json"
 
+
+
+def download_main_files():
+    filelist = requests.get("https://api.github.com/repos/goglesquirmintontheiii/streamdeck-plus-software/contents/").json()
+    
+    for file in filelist:
+        if not file['name'].endswith(".zip"):
+            with open(pth+"/"+file['name'], "wb") as f:
+                f.write(requests.get(file['download_url']).content)
+    print("Done!")
+    #print("Copying script to ~/.streamdeck.. (this is required for the desktop shortcut to work)")
+    #shutil.copyfile(__file__,pth+"/streamdeck.py")
+
+
 if os.path.exists(cfgpth):
     pass
 else:
@@ -44,7 +61,8 @@ else:
 }
 """) 
     print("Seems you're new to the software!")
-    if getselection("Would you like to scan for an existing official Streamdeck software? This will let you import your icon and background packs. (y/n): "):
+    #if getselection("Would you like to scan for an existing official Streamdeck software? This will let you import your icon and background packs. (y/n): "):
+    if False: # -- Not implemented yet -- needs a bit of work first, but it's not my top priority
         input("Press enter when you've mounted your windows drive (so the program can reach it easily). This will scan /media/ for drives that have Windows on them.")
         users = os.listdir("/media")
         for directory in users:
@@ -67,7 +85,7 @@ else:
             f.write("Name=Stream deck\n")
             f.write("Version=v0.0.1\n")
             f.write("Icon="+pth+sep+'icon.png\n')
-            f.write("Exec=/bin/python3 "+pth+sep+"streamdeck.py\n")
+            f.write("Exec=/bin/python3 "+pth+sep+"sdplus.py\n")
             f.write("Terminal=false\n")
             f.write("Type=Application")
     if getselection("Would you like to download a small icon pack from the repo? (1.1MB) (y/n): "):
@@ -104,9 +122,12 @@ else:
     print("Downloading streamdeck icon..")
     with open(pth+"/icon.png","wb") as f:
         f.write(requests.get("https://raw.githubusercontent.com/goglesquirmintontheiii/streamdeck-plus-software/main/icon.png").content)
-    print("Copying script to ~/.streamdeck.. (this is required for the desktop shortcut to work)")
-    shutil.copyfile(__file__,pth+"/streamdeck.py")
+    print("Downloading all other necessary items to ~/.streamdeck ...")
+    download_main_files()
     if not os.path.exists(backgroundpth):
         os.mkdir(backgroundpth)
     if not os.path.exists(fontpth):
         os.mkdir(fontpth)
+
+
+
