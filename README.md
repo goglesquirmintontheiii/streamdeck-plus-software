@@ -4,7 +4,7 @@
 
 ***THE INSTALLER SYSTEM IS IMPLEMENTED AND WORKING, IF YOU WANT TO TRY THE SOFTWARE OUT IN ITS EARLY STATE. THE AUTOUPDATE SYSTEM IS IMPLEMENTED BUT UNTESTED***
 
-I'm still actively working on this as much as a can, though I don't have a lot of time to work on it generally so it may be a bit before I can get the first release out
+(ive decided to name this project pydeck+, btw)
 
 This software was started as a project for personal use but adapted to be easy(ish) to use by others, so not everything will be as easy as it is in the official Elgatio software.
 
