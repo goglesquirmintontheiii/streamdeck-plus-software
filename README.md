@@ -52,6 +52,9 @@ Configuring a button, the screen, or a dial is as simple as clicking on it in th
 - left: triggered when you swipe left over a dial's icon, blocks screen's left event if set
 - right: triggered when you swipe right over a dial's icon, blocks screen's right event if set
 
+## actions (UNPUBLISHED BETA)
+You can make your own actions by making a new .json file in .streamdeck/actions 
+
 # Planned features
 - Integrated spotify support - *I may not work on this for a while as I no longer use Spotify*
 - Icon picker
