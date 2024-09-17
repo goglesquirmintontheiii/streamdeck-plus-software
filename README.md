@@ -2,7 +2,7 @@
 ^ I've noticed the amount of interest in the project and so I've decided to prioritise this project more than my others; please be patient but know I haven't forgotten about this :)
 (I'm a solo dev with a bit of a busy schedule..) 
 
-***THE INSTALLER SYSTEM IS IMPLEMENTED AND WORKING, IF YOU WANT TO TRY THE SOFTWARE OUT IN ITS EARLY STATE. THE AUTOUPDATE SYSTEM IS IMPLEMENTED BUT UNTESTED***
+***THE INSTALLER SYSTEM IS IMPLEMENTED AND WORKING, IF YOU WANT TO TRY THE SOFTWARE OUT IN ITS EARLY STATE. THE AUTOUPDATE SYSTEM IS (PROBABLY) BROKEN(?)***
 
 (ive decided to name this project pydeck+, btw)
 
